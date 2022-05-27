@@ -38,3 +38,11 @@ def lalala(message):
 			bot.send_message(message.chat.id, 'Отлично, сам как?', reply_markup=markup)
 		else:
 			bot.send_message(message.chat.id, 'Я не знаю что ответить 😢')
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+	try:
+		if call.message:
+			if call.data == 'good':
+				bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
+			elif call.data == 'bad':
+				bot.send_message(call.message.chat.id, 'Бывает 😢')
