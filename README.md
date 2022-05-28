@@ -37,7 +37,8 @@ def lalala(message):
 
 			bot.send_message(message.chat.id, 'Отлично, сам как?', reply_markup=markup)
 		else:
-			bot.send_message(message.chat.id, 'Я не знаю что ответить 😢')
+			bot.send_message(message.chat.id, 'Я еще глупый 😢')
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
 	try:
@@ -45,4 +46,18 @@ def callback_inline(call):
 			if call.data == 'good':
 				bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
 			elif call.data == 'bad':
-				bot.send_message(call.message.chat.id, 'Бывает 😢')
+				bot.send_message(call.message.chat.id, 'бедный😢')
+
+			# remove inline buttons
+			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="😊 Как дела?",
+				reply_markup=None)
+
+			# show alert
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
+				text="ЭТО ТЕСТОВОЕ УВЕДОМЛЕНИЕ!!11")
+
+	except Exception as e:
+		print(repr(e))
+
+# RUN
+bot.polling(none_stop=True)
