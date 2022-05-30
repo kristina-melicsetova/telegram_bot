@@ -13,13 +13,10 @@ def welcome(message):
 	bot.send_sticker(message.chat.id, sti)
 
 	# keyboard
-	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-	item1 = types.KeyboardButton("🎲 Рандомное число")
-	item2 = types.KeyboardButton("😊 Как дела?")
-
+	
 	markup.add(item1, item2)
 
-	bot.send_message(message.chat.id, "Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, бот созданный чтобы быть подопытным кроликом.".format(message.from_user, bot.get_me()),
+	bot.send_message(message.chat.id, "Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, бот созданный чтобы быть подопытным кроликом.".format(message.from_user, bot.get_me()),#приветствуем пользвателя
 		parse_mode='html', reply_markup=markup)
 
 @bot.message_handler(content_types=['text'])
