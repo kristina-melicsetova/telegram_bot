@@ -1,56 +1,12 @@
 # telegram_bot
-import telebot
-import config
-import random
+iimport asyncio
+from aiogram import Bot, Dispatcher, executor
+from config import BOT_TOKEN
+loop = asyncio.new_event_loop()
+bot = Bot(BOT_TOKEN, parse_mode='HTML')
+dp = Dispatcher(bot, loop=loop)
 
-from telebot import types
 
-bot = telebot.TeleBot(config.TOKEN)
-
-@bot.message_handler(commands=['start'])
-def welcome(message):
-	sti = open('static/welcome.webp', 'rb')
-	bot.send_sticker(message.chat.id, sti)
-
-	# keyboard
-	
-	markup.add(item1, item2)
-
-	bot.send_message(message.chat.id, "Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, бот созданный чтобы быть подопытным кроликом.".format(message.from_user, bot.get_me()),#приветствуем пользвателя
-		parse_mode='html', reply_markup=markup)
-
-@bot.message_handler(content_types=['text'])
-def lalala(message):
-	if message.chat.type == 'private':
-		if message.text == '🎲 Рандомное число':
-			bot.send_message(message.chat.id, str(random.randint(0,100)))
-		elif message.text == '😊 Как дела?':
-
-			markup.add(item1, item2)
-
-			bot.send_message(message.chat.id, 'Отлично, сам как?', reply_markup=markup)
-		else:
-			bot.send_message(message.chat.id, 'Я еще глупый 😢')
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_inline(call):
-	try:
-		if call.message:
-			if call.data == 'good':
-				bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
-			elif call.data == 'bad':
-				bot.send_message(call.message.chat.id, 'бедный😢')
-
-			# remove inline buttons
-			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="😊 Как дела?",
-				reply_markup=None)
-
-			# show alert
-			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
-				text="ЭТО ТЕСТОВОЕ УВЕДОМЛЕНИЕ!!11")
-
-	except Exception as e:
-		print(repr(e))
-
-# RUN
-bot.polling(none_stop=True)
+if __name__ == '__main__':
+    from handlers import dp, send_hello
+    executor.start_polling(dp, on_startup=send_hello())
