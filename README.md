@@ -34,6 +34,24 @@ elif message.text == 'how are you?':
             bot.send_message(message.chat.id, 'отлично, сам как?')
         else:
             bot.send_message(message.chat.id, 'да, и ответить не знаю чего тебе')
+@bot.callback_query_handler(func=lambda call:True)
+def callback_inline(call):
+    try:
+        if call.message:
+            if call.data == 'good':
+                bot.send_message(call.message.chat.id, 'Вот и отличненько')
+            elif call.data == 'bad':
+                bot.send_message(call.message.chat.id,'Крепись')
+            #remove inline buttons
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="how are you?",reply_markup=None)
+
+            #chow alert
+            bot.answer_callback_query(chat_id=call.message.chat.id, show_alert=False,text="Это тестовое уведомление") 
+
+    except Exception as e:
+        print(repr(e))
+# #run
+bot.polling(none_stop=True)
 
             
         
