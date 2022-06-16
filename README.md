@@ -24,15 +24,18 @@ def welcome(message):
 
     bot.send_message(message.chat.id, "welcome, {0.first_name}!\n Я <b> {1.first_name} </b> - бот в стадии полуфабриката".format(message.from_user, bot.get_me()),parse_mode='html', reply_markup=markup)
 
-@bot.message_handler(content_types=['text'])
-def lalala(message):
-    if message.chat.type == 'private':
-        if message.text == 'random number':
-            bot.send_message(message.chat.id, str (random.randint(0,100)))
-        elif message.text == 'how are you?':
+elif message.text == 'how are you?':
+            markup = types.InlineKeyboardMarkup(row_width=2)
+            item1 = types.InlineKeyboardButton("Хорошо",callback_data='good')
+            item2 = types.InlineKeyboardButton("Не очень",callback_data='bad')
+            
+            markup.add(item1,item2)
+
             bot.send_message(message.chat.id, 'отлично, сам как?')
         else:
-            bot.send_message(message.chat_id, 'да, и ответить не знаю чего тебе')
+            bot.send_message(message.chat.id, 'да, и ответить не знаю чего тебе')
+
+            
         
 
 #run
