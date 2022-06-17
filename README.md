@@ -8,14 +8,14 @@ from telebot import types
 
 bot = telebot.TeleBot(config.TOKEN)
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start']) #приветсвуем стикером
 def welcome(message):
     sti = open('Downloads/for_telegram.webp','rb')
     bot.send_sticker(message.chat.id, sti)
 
 
     #keyboard
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True) #даем варианты ворпросов
     item1= types.KeyboardButton("how are you?")
     item2 = types.KeyboardButton("rundom number")
 
@@ -24,7 +24,7 @@ def welcome(message):
 
     bot.send_message(message.chat.id, "welcome, {0.first_name}!\n Я <b> {1.first_name} </b> - бот в стадии полуфабриката".format(message.from_user, bot.get_me()),parse_mode='html', reply_markup=markup)
 
-elif message.text == 'how are you?':
+elif message.text == 'how are you?': #создаем кнопки ответа  хорошо и не очень
             markup = types.InlineKeyboardMarkup(row_width=2)
             item1 = types.InlineKeyboardButton("Хорошо",callback_data='good')
             item2 = types.InlineKeyboardButton("Не очень",callback_data='bad')
@@ -37,7 +37,7 @@ elif message.text == 'how are you?':
 @bot.callback_query_handler(func=lambda call:True)
 def callback_inline(call):
     try:
-        if call.message:
+        if call.message:#если ответ хорошо отвечаем"вот и отличненько"
             if call.data == 'good':
                 bot.send_message(call.message.chat.id, 'Вот и отличненько')
             elif call.data == 'bad':
