@@ -2,6 +2,7 @@
 import telebot
 import config
 import random 
+from aiogram.dispatcher.filters import BoundFilter
  
 from telebot import types
 
@@ -10,7 +11,7 @@ bot = telebot.TeleBot(config.TOKEN)
 
 @bot.message_handler(commands=['start']) #приветсвуем стикером
 def welcome(message):
-    sti = open('Downloads/for_telegram.webp','rb')
+    sti = open('Downloads/for','rb')
     bot.send_sticker(message.chat.id, sti)
 
 
@@ -27,6 +28,8 @@ def welcome(message):
 elif message.text == 'how are you?': #создаем кнопки ответа  хорошо и не очень
             markup = types.InlineKeyboardMarkup(row_width=2)
             item1 = types.InlineKeyboardButton("Хорошо",callback_data='good')
+            item2 = types.InlineKeyboardButton("Не очень",callback_data='bad')
+            item2 = types.InlineKeyboardButton("рекомендации к соченению ",callback_data='bad')
             item2 = types.InlineKeyboardButton("Не очень",callback_data='bad')
             
             markup.add(item1,item2)
