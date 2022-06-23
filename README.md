@@ -1,63 +1,54 @@
 # telegram_bot
 import telebot
-import config
+import config 
 import random 
-from aiogram.dispatcher.filters import BoundFilter
- 
-from telebot import types
 
+from telebot import types
 
 bot = telebot.TeleBot(config.TOKEN)
 
-@bot.message_handler(commands=['start']) #приветсвуем стикером
+@bot.message_handler(commands=['start'])
 def welcome(message):
-    sti = open('Downloads/for','rb')
-    bot.send_sticker(message.chat.id, sti)
+    # sti = open('Documents/sticker.wepb', 'rb')
+    # bot.send_stiker(message.chat.id,sti)
 
-
-    #keyboard
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True) #даем варианты ворпросов
-    item1= types.KeyboardButton("how are you?")
-    item2 = types.KeyboardButton("rundom number")
+    markup= types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 =types.KeyboardButton("Рандомное число")
+    item2 =types.KeyboardButton("Как дела?")
 
     markup.add(item1,item2)
 
+    bot.send_message(message.chat.id,"добро пожаловатть, {0.first_name}!\n я -<b>{1.first_name}</b>".format(message.from_user, bot.get_me()),parse_mode='html',reply_markup=markup)
 
-    bot.send_message(message.chat.id, "welcome, {0.first_name}!\n Я <b> {1.first_name} </b> - бот в стадии полуфабриката".format(message.from_user, bot.get_me()),parse_mode='html', reply_markup=markup)
+@bot.message_handler(content_types=['text'])
+def lalala(message):
+    if message.chat.type == "private":
+        if message.text == 'Рандомное число':
+            bot.send_message(message.chat.id, str(random.randint(0,100)))
+        elif message.text == 'Как дела?':
 
-elif message.text == 'how are you?': #создаем кнопки ответа  хорошо и не очень
             markup = types.InlineKeyboardMarkup(row_width=2)
-            item1 = types.InlineKeyboardButton("Хорошо",callback_data='good')
-            item2 = types.InlineKeyboardButton("Не очень",callback_data='bad')
-            item2 = types.InlineKeyboardButton("рекомендации к соченению ",callback_data='bad')
-            item2 = types.InlineKeyboardButton("Не очень",callback_data='bad')
-            
-            markup.add(item1,item2)
+            item1 = types.InlineKeyboardButton("Хорошо", callback_data='good')
+            item2 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            markup.add(item1, item2)
 
-            bot.send_message(message.chat.id, 'отлично, сам как?')
+            bot.send_message(message.chat.id,'отлично,сам как?', reply_markup=markup)
         else:
-            bot.send_message(message.chat.id, 'да, и ответить не знаю чего тебе')
-@bot.callback_query_handler(func=lambda call:True)
+            bot.send_message(message.chat.id,'я не знаю, что ответить')
+    
+@bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     try:
-        if call.message:#если ответ хорошо отвечаем"вот и отличненько"
+        if call.message:
             if call.data == 'good':
-                bot.send_message(call.message.chat.id, 'Вот и отличненько')
+                bot.send_message(call.message.chat.id,'вот и отличненько')
             elif call.data == 'bad':
-                bot.send_message(call.message.chat.id,'Крепись')
-            #remove inline buttons
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="how are you?",reply_markup=None)
+                bot.send_message(call.message.chat.id,'бывает')
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Как дела?", reply_markup=None)
 
-            #chow alert
-            bot.answer_callback_query(chat_id=call.message.chat.id, show_alert=False,text="Это тестовое уведомление") 
-
+            bot.answer_callback_query(chat_id=call.message.chat.id, show_alert=False, text="Это тестовое ")
     except Exception as e:
         print(repr(e))
-# #run
-bot.polling(none_stop=True)
 
-            
-        
 
-#run
 bot.polling(none_stop=True)
