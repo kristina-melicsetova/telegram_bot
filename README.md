@@ -23,18 +23,18 @@ def welcome(message):
 @bot.message_handler(content_types=['text'])
 def lalala(message):
     if message.chat.type == "private":
-        if message.text == 'Рандомное число':
-            bot.send_message(message.chat.id, str(random.randint(0,100)))
+        if message.text == 'Напишем эссе!':
+            markup = types.InlineKeyboardMarkup(row_width=2)
+            item1 = types.InlineKeyboardButton("Что такое эссе?", callback_data='what is asse')
+            item2 = types.InlineKeyboardButton("Зачем писать эссе?", callback_data='zachem')
+            markup.add(item1, item2)
         elif message.text == 'Как дела?':
 
             markup = types.InlineKeyboardMarkup(row_width=2)
-            item1 = types.InlineKeyboardButton("Хорошо", callback_data='good')
-            item2 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item1 = types.InlineKeyboardButton("Что такое эссе?", callback_data='what is asse')
+            item2 = types.InlineKeyboardButton("Зачем писать эссе?", callback_data='zachem')
             markup.add(item1, item2)
 
-            bot.send_message(message.chat.id,'отлично,сам как?', reply_markup=markup)
-        else:
-            bot.send_message(message.chat.id,'я не знаю, что ответить')
     
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
