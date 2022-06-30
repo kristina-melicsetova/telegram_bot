@@ -27,8 +27,11 @@ def lalala(message):
             markup = types.InlineKeyboardMarkup(row_width=2)
             item1 = types.InlineKeyboardButton("Что такое эссе?", callback_data='good')
             item2 = types.InlineKeyboardButton("Зачем писать эссе?", callback_data='bad')
- 
-            markup.add(item1, item2)
+            item3 = types.InlineKeyboardButton("Заметка о технологии", callback_data='zametka')
+            item4 = types.InlineKeyboardButton("Об использовании времени", callback_data='time')
+            item5 = types.InlineKeyboardButton("Слова, предложения, абзацы и более", callback_data='part2')
+            item6 = types.InlineKeyboardButton("Дополнительные уровни", callback_data='dop')
+            markup.add(item1, item2,item3,item4,item5,item6)
  
             bot.send_message(message.chat.id, 'Будем писать!', reply_markup=markup)
         else:
