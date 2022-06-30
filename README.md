@@ -46,15 +46,35 @@ def lalala(message):
 
 def callback_inline(call):
     try:
-        if call.message:
-            if call.data == 'good':
-                bot.send_message(call.message.chat.id, 'Эссе – это сравнительно короткий текст по определенной теме. Однако, слово essay (в английском) также значит пробу или попытку. Таким образом, эссе – это короткий текст, написанный кем-то в попытке исследовать тему или ответить на вопрос.')
-            elif call.data == 'bad':
-                bot.send_message(call.message.chat.id, 'В большинстве случаев студенты пишут эссе только потому, что их преподаватель требует этого. Поэтому студенты думают, что эссе важны прежде всего для демонстрации их знаний учителю или профессору. Это понятная, и опасная, ошибка (хоть написание текстов для демонстрации и может быть практически необходимым.)')
- 
-            # remove inline buttons
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Напишем эссе!",
-                reply_markup=None)
+if call.data == 'good':
+                markup = types.InlineKeyboardMarkup(row_width=2)
+                item2 = types.InlineKeyboardButton("Зачем писать эссе?", callback_data='bad')
+                markup.add(item2)
+                bot.send_message(call.message.chat.id, 'https://telegra.ph/Nachnem-06-30', parse_mode='html', reply_markup=markup)
+            if call.data == 'bad':
+                markup = types.InlineKeyboardMarkup(row_width=2)
+                item3 = types.InlineKeyboardButton("Заметка о технологии", callback_data='zametka')
+                markup.add(item3)
+                bot.send_message(call.message.chat.id, 'https://telegra.ph/ap-06-29-2', parse_mode='html', reply_markup=markup)
+                                                       
+            elif call.data == 'zametka':
+                markup = types.InlineKeyboardMarkup(row_width=2)
+                item3 = types.InlineKeyboardButton("Об использовании времени", callback_data='time')
+                markup.add(item3)
+                bot.send_message(call.message.chat.id, 'https://telegra.ph/Zametka-o-tehnologii-06-30', parse_mode='html', reply_markup=markup)
+            if call.data == 'time':
+                markup = types.InlineKeyboardMarkup(row_width=2)
+                item4 = types.InlineKeyboardButton("Слова, предложения, абзацы и более", callback_data='part2')
+                markup.add(item4)
+                bot.send_message(call.message.chat.id, 'https://telegra.ph/Ob-ispolzovanii-vremeni-06-30', parse_mode='html', reply_markup=markup)
+            elif call.data == 'part2':
+                markup = types.InlineKeyboardMarkup(row_width=2)
+                item5 = types.InlineKeyboardButton("Дополнительные уровни", callback_data='dop')
+                markup.add(item5)
+                bot.send_message(call.message.chat.id, 'https://telegra.ph/CHAST-VTORAYA-UROVNI-RAZRESHENIYA-06-30', parse_mode='html', reply_markup=markup)
+            if call.data == 'dop':
+                bot.send_message(call.message.chat.id, 'https://telegra.ph/Dopolnitelnye-urovni-06-30')
+                
  
             # show alert
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
